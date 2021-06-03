@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import io.github.joaoh1.boringbackgrounds.utils.BackgroundUtils;
@@ -18,19 +18,20 @@ import io.github.joaoh1.boringbackgrounds.utils.BackgroundUtils;
 @Mixin(TextureManager.class)
 public class TextureManagerMixin {
 	@Inject(
-		at = @At(value = "INVOKE", target = "net/minecraft/client/texture/AbstractTexture.bindTexture()V"),
-		method = "bindTextureInner(Lnet/minecraft/util/Identifier;)V",
+		at = @At("TAIL"),
+		method = "getTexture(Lnet/minecraft/util/Identifier;)Lnet/minecraft/client/texture/AbstractTexture;",
 		locals = LocalCapture.CAPTURE_FAILHARD,
 		cancellable = true
 	)
-	private void redirectBackgroundTexture(Identifier id, CallbackInfo info, AbstractTexture abstractTexture) {
-		// If the identifier is the same as the background texture, hijack it and change it to the chosen texture
+	private AbstractTexture redirectBackgroundTexture(Identifier id, CallbackInfoReturnable<AbstractTexture> ci, AbstractTexture abstractTexture) {
+		// If the identifier is the same as the background texture, then change it to the chosen texture
 		if (id == DrawableHelper.OPTIONS_BACKGROUND_TEXTURE) {
 			abstractTexture = new ResourceTexture(BackgroundUtils.backgroundTexture);
 			this.registerTexture(id, abstractTexture);
-			abstractTexture.bindTexture();
-			info.cancel();
+			ci.setReturnValue(abstractTexture);
 		}
+
+		return ci.getReturnValue();
 	}
 
 	@Shadow

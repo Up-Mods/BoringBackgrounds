@@ -60,9 +60,7 @@ public class BoringBackgroundsLoader implements SimpleResourceReloadListener<Map
                     BackgroundUtils.logger.error("[Boring Backgrounds] Failed to load the background settings! The following error has been printed: " + e);
                 }
             }
-            Map<Map<Identifier, Integer>, Boolean> returnedMap = new HashMap<>();
-            returnedMap.put(map, randomizeOnNewScreen);
-            return returnedMap;
+            return Map.of(map, randomizeOnNewScreen);
         }, executor);
     }
 
