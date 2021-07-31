@@ -9,7 +9,7 @@ A mod that allows for further customization of the background texture. Meant to 
 This mod is available for download on the following services:
 
 - [CurseForge (recommended)](https://www.curseforge.com/minecraft/mc-mods/boring-backgrounds)
-- [GitHub Releases (alternative)](https://github.com/joaoh1/BoringBackgrounds/releases)
+- [GitHub Releases (alternative)](https://github.com/EnnuiL/BoringBackgrounds/releases)
 
 ## Usage
 

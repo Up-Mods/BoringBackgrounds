@@ -1,4 +1,4 @@
-package io.github.joaoh1.boringbackgrounds;
+package io.github.ennuil.boringbackgrounds;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
-import io.github.joaoh1.boringbackgrounds.utils.BackgroundUtils;
+import io.github.ennuil.boringbackgrounds.utils.BackgroundUtils;
 import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;

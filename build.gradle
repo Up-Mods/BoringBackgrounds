@@ -1,28 +1,29 @@
 plugins {
-	id 'fabric-loom' version '0.8-SNAPSHOT'
+	id 'fabric-loom' version '0.9-SNAPSHOT'
+	id 'io.github.juuxel.loom-quiltflower' version '1.2.1'
 	id 'maven-publish'
 }
 
+
+// Visual Studio Code completely ignores options.release.
+// So, we still have those two.
 sourceCompatibility = JavaVersion.VERSION_16
 targetCompatibility = JavaVersion.VERSION_16
 
 archivesBaseName = project.archives_base_name
+version = System.env.GITHUB_ACTIONS == "true"
+	? "${project.mod_version}.github.${System.env.GITHUB_RUN_NUMBER}"
+	: project.mod_version
 group = project.maven_group
 
-if (System.env.GITHUB_ACTIONS == "true") {
-	version = "${project.mod_version}-github.${System.env.GITHUB_RUN_NUMBER}"
-} else {
-	version = project.mod_version
-}
-
 repositories {
-	mavenCentral()
+	maven { url "https://maven.quiltmc.org/repository/release" }
 }
 
 dependencies {
 	// To change the versions, see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	mappings "org.quiltmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"

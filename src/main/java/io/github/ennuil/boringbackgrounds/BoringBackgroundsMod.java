@@ -1,4 +1,4 @@
-package io.github.joaoh1.boringbackgrounds;
+package io.github.ennuil.boringbackgrounds;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
