@@ -68,16 +68,19 @@ public class BoringBackgroundsLoader implements SimpleResourceReloadListener<Map
     public CompletableFuture<Void> apply(Map<Map<Identifier, Integer>, Boolean> data, ResourceManager manager, Profiler profiler, Executor executor) {
         return CompletableFuture.runAsync(() -> {
             List<Identifier> textures = new ArrayList<>();
+            List<Integer> textureIndices = new ArrayList<>();
             data.forEach((map, randomizeOnNewScreen) -> {
                 map.forEach((key, value) -> {
+                    textures.add(key);
                     for (int i = 0; i < value; i++) {
-                        textures.add(key);
+                        textureIndices.add(textures.size() - 1);
                     }
                 });
                 BackgroundUtils.randomizeOnNewScreen = randomizeOnNewScreen;
             });
 
             BackgroundUtils.textures = textures;
+            BackgroundUtils.textureIndices = textureIndices;
             BackgroundUtils.backgroundTexture = BackgroundUtils.updateBackground();
         });
     }

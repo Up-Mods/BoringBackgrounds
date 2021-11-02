@@ -2,29 +2,38 @@
 
 # Boring Backgrounds
 
-A mod that allows for further customization of the background texture. Meant to be used by modpacks and resource packs. This mod depends on the [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api).
+Boring Background is a mod that allows for changing dirt background with another texture. You can simply change to a single texture, use a weighted list of textures, and even make it change every time the screen is changed! This mod requires Minecraft 1.17+ and the [Fabric API](https://modrinth.com/mod/fabric-api).
 
 ## Download
 
 This mod is available for download on the following services:
 
-- [CurseForge (recommended)](https://www.curseforge.com/minecraft/mc-mods/boring-backgrounds)
+- [Modrinth (recommended)](https://modrinth.com/mod/boring-backgrounds)
+- [CurseForge (alternative)](https://www.curseforge.com/minecraft/mc-mods/boring-backgrounds)
 - [GitHub Releases (alternative)](https://github.com/EnnuiL/BoringBackgrounds/releases)
 
-## Usage
+## Configuration
+There are two ways to configure this mod: through a resource pack, or through the global `config` folder.
 
-This mod reads input from both in `asset/boringbackgrounds/backgrounds/background_settings.json` inside resource packs or from `.minecraft/config/boringbackgrounds.json`, which overrides the resource pack input if found. Both files share the same format, comments were added in order to explain the format:
+The config format is shared by both methods, and can be seen below:
+
 ```jsonc
 {
-    //An array of identifiers and its weight, a bigger weight means more chances to be chosen compared to others.
+    // A map of texture identifiers and its weight. A bigger weight means more chances to be chosen over the others.
     "textures": {
         "minecraft:textures/gui/options_background.png": 1
     },
-    //If this is enabled, a new background is chosen if a screen is opened, else, it's only chosen after a texture reload.
+    // If this is enabled, a new background is chosen if a screen is opened, else, it's only chosen after a texture reload.
     "randomize_on_new_screen": false
 }
 ```
 
+If you want to configure the mod through a resource pack, create the file at the path `assets/boringbackgrounds/backgrounds/background_settings.json`.
+
+If you want to use a global config file, the path is `.minecraft/config/boringbackgrounds.json`. Keep in mind that it will override any resource pack-provided settings.
+
+If you want to reload the settings, you may do so through F3 + T. This is due to the configuration being handled by a resource reloader.
+
 ## License
 
-This mod is licensed under the MIT license. You can freely include the mod on any modpack with no permission. Use of this mod's code on other projects is allowed as long as attribution is given.
+This mod is licensed under the MIT license. You can freely include the mod on any modpack with no permission. Usage of this mod's code on other projects or derivatives of this mod is allowed as long as attribution is given.
