@@ -13,27 +13,25 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.util.Identifier;
 
 public class BackgroundUtils {
-	// The logger, used to inform the user
-	public static final Logger logger = LogManager.getFormatterLogger("Boring Backgrounds");
-	// The path to the global background_settings.json equivalent
-	public static final Path globalConfigPath = FabricLoader.getInstance().getConfigDir().resolve("boringbackgrounds.json");
+    // The logger, used to inform the user
+    public static final Logger LOGGER = LogManager.getFormatterLogger("Boring Backgrounds");
+    // The path to the global background_settings.json equivalent
+    public static final Path GLOBAL_CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("boringbackgrounds.json");
 
-	// The list of textures storing all the potential background IDs
-	public static List<Identifier> textures = new ArrayList<>();
-	// The list of textures storing all the potential background IDs
-	public static List<Integer> textureIndices = new ArrayList<>();
-	// The current background, overrides the vanilla one
-	public static Identifier backgroundTexture;
-	// The "randomize_on_new_screen" option's value
-	public static boolean randomizeOnNewScreen;
+    // The list of textures storing all the potential background IDs
+    public static List<Identifier> textures = new ArrayList<>();
+    // The list of textures storing the weighted indexes for the texture list
+    public static List<Integer> textureIndices = new ArrayList<>();
+    // The current background, overrides the vanilla one
+    public static Identifier backgroundTexture;
+    // The "randomize_on_new_screen" option's value
+    public static boolean randomizeOnNewScreen;
 
-	// Chooses a random background
-	public static Identifier updateBackground() {
-		//If there's no texture IDs, just use the vanilla one
-		if (textures.size() == 0) {
-			return backgroundTexture = DrawableHelper.OPTIONS_BACKGROUND_TEXTURE;
-		}
-
-		return backgroundTexture = textures.get(textureIndices.get(new Random().nextInt(textureIndices.size())));
-	}
+    // Chooses a random background
+    public static void updateBackground() {
+        backgroundTexture = !textures.isEmpty()
+            ? textures.get(textureIndices.get(new Random().nextInt(textureIndices.size())))
+            // If there aren't any texture IDs, just use the vanilla background
+            : DrawableHelper.OPTIONS_BACKGROUND_TEXTURE;
+    }
 }
