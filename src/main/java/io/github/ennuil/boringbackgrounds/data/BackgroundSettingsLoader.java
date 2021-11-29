@@ -28,27 +28,39 @@ public class BackgroundSettingsLoader implements SimpleResourceReloadListener<Ba
     @Override
     public CompletableFuture<BackgroundSettings> load(ResourceManager manager, Profiler profiler, Executor executor) {
         return CompletableFuture.supplyAsync(() -> {
-            for (Identifier identifier : manager.findResources("backgrounds", filename -> filename.endsWith(".json"))) {
-                // This kinda odd thingy should allow for support of JSON5 Everywhere
-                String idPath = identifier.getPath();
-                if (!idPath.substring(0, idPath.lastIndexOf('.')).endsWith("background_settings")) {
-                    continue;
-                }
-                try {
-                    Reader reader;
-                    if (BackgroundUtils.GLOBAL_CONFIG_PATH.toFile().exists() && BackgroundUtils.GLOBAL_CONFIG_PATH.toFile().canRead()) {
-                        BackgroundUtils.LOGGER.warn("[Boring Backgrounds] Found a global background settings file in minecraft/config/boringbackgrounds.json. Settings provided by resource packs will be ignored!");
-                        reader = Files.newBufferedReader(BackgroundUtils.GLOBAL_CONFIG_PATH, StandardCharsets.UTF_8);
+            try {
+                if (BackgroundUtils.GLOBAL_CONFIG_PATH.toFile().exists() && BackgroundUtils.GLOBAL_CONFIG_PATH.toFile().canRead()) {
+                    Reader globalReader;
+                    BackgroundUtils.LOGGER.warn("[Boring Backgrounds] Found a global background settings file in minecraft/config/boringbackgrounds.json. Settings provided by resource packs will be ignored!");
+                    globalReader = Files.newBufferedReader(BackgroundUtils.GLOBAL_CONFIG_PATH, StandardCharsets.UTF_8);
+                    
+                    var result = BackgroundSettings.CODEC.decode(JsonOps.INSTANCE, JsonParser.parseReader(globalReader)).map(Pair::getFirst).result();
+                    globalReader.close();
+                    if (result.isPresent()) {
+                        return result.get();
                     } else {
-                        reader = new BufferedReader(new InputStreamReader(manager.getResource(identifier).getInputStream(), StandardCharsets.UTF_8));
-                    }
-
-                    var result = BackgroundSettings.CODEC.decode(JsonOps.INSTANCE, JsonParser.parseReader(reader)).map(Pair::getFirst).result();
-                    reader.close();
-                    if (result.isPresent()) return result.get();
-                } catch (IOException | JsonParseException e) {
-                    BackgroundUtils.LOGGER.error("[Boring Backgrounds] Failed to load the background settings! The following error has been printed: " + e);
+                        BackgroundUtils.LOGGER.error("Failed to load the global settings! Attempting to load from resource packs...");
+                    };
                 }
+                for (Identifier identifier : manager.findResources("backgrounds", filename -> filename.endsWith(".json"))) {
+                    Reader packReader;
+                    // This kinda odd thingy should allow for support of JSON5 Everywhere
+                    String idPath = identifier.getPath();
+                    if (!idPath.substring(0, idPath.lastIndexOf('.')).endsWith("background_settings")) {
+                        continue;
+                    }
+                    packReader = new BufferedReader(new InputStreamReader(manager.getResource(identifier).getInputStream(), StandardCharsets.UTF_8));
+
+                    var result = BackgroundSettings.CODEC.decode(JsonOps.INSTANCE, JsonParser.parseReader(packReader)).map(Pair::getFirst).result();
+                    packReader.close();
+                    if (result.isPresent()) {
+                        return result.get();
+                    } else {
+                        BackgroundUtils.LOGGER.error("Failed to load the resource pack-provided settings at {}!", identifier.toString());
+                    };
+                }
+            } catch (IOException | JsonParseException e) {
+                BackgroundUtils.LOGGER.error("[Boring Backgrounds] Failed to load the background settings! The following error has been printed: " + e);
             }
             
             return BackgroundSettings.getDefaultSettings();

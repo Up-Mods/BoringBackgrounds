@@ -14,7 +14,7 @@ import io.github.ennuil.boringbackgrounds.utils.BackgroundUtils;
 public class TextureManagerMixin {
     @ModifyVariable(
         at = @At(
-            value = "INVOKE_ASSIGN",
+            value = "INVOKE",
             target = "java/util/Map.get(Ljava/lang/Object;)Ljava/lang/Object;"
         ),
         method = "getTexture(Lnet/minecraft/util/Identifier;)Lnet/minecraft/client/texture/AbstractTexture;",
