@@ -28,9 +28,12 @@ public class BackgroundSettingsLoader implements SimpleResourceReloadListener<Ba
     @Override
     public CompletableFuture<BackgroundSettings> load(ResourceManager manager, Profiler profiler, Executor executor) {
         return CompletableFuture.supplyAsync(() -> {
-            JsonParser parser = new JsonParser();
-
-            for (Identifier identifier : manager.findResources("backgrounds", filename -> filename.contentEquals("background_settings.json"))) {
+            for (Identifier identifier : manager.findResources("backgrounds", filename -> filename.endsWith(".json"))) {
+                // This kinda odd thingy should allow for support of JSON5 Everywhere
+                String idPath = identifier.getPath();
+                if (!idPath.substring(0, idPath.lastIndexOf('.')).endsWith("background_settings")) {
+                    continue;
+                }
                 try {
                     Reader reader;
                     if (BackgroundUtils.GLOBAL_CONFIG_PATH.toFile().exists() && BackgroundUtils.GLOBAL_CONFIG_PATH.toFile().canRead()) {
@@ -40,7 +43,7 @@ public class BackgroundSettingsLoader implements SimpleResourceReloadListener<Ba
                         reader = new BufferedReader(new InputStreamReader(manager.getResource(identifier).getInputStream(), StandardCharsets.UTF_8));
                     }
 
-                    var result = BackgroundSettings.CODEC.decode(JsonOps.INSTANCE, parser.parse(reader)).map(Pair::getFirst).result();
+                    var result = BackgroundSettings.CODEC.decode(JsonOps.INSTANCE, JsonParser.parseReader(reader)).map(Pair::getFirst).result();
                     reader.close();
                     if (result.isPresent()) return result.get();
                 } catch (IOException | JsonParseException e) {
