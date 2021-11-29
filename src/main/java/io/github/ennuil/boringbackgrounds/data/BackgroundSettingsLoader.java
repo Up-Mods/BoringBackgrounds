@@ -56,7 +56,7 @@ public class BackgroundSettingsLoader implements SimpleResourceReloadListener<Ba
                     if (result.isPresent()) {
                         return result.get();
                     } else {
-                        BackgroundUtils.LOGGER.error("Failed to load the resource pack-provided settings at {}!", identifier.toString());
+                        BackgroundUtils.LOGGER.error("Failed to load settings provided by a resource pack!");
                     };
                 }
             } catch (IOException | JsonParseException e) {
