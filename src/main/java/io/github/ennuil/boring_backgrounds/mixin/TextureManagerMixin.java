@@ -1,4 +1,4 @@
-package io.github.ennuil.boringbackgrounds.mixin;
+package io.github.ennuil.boring_backgrounds.mixin;
 
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.texture.TextureManager;
@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-import io.github.ennuil.boringbackgrounds.utils.BackgroundUtils;
+import io.github.ennuil.boring_backgrounds.utils.BackgroundUtils;
 
 @Mixin(TextureManager.class)
 public class TextureManagerMixin {

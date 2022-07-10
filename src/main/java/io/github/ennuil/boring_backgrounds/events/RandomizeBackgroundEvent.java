@@ -1,6 +1,6 @@
-package io.github.ennuil.boringbackgrounds.events;
+package io.github.ennuil.boring_backgrounds.events;
 
-import io.github.ennuil.boringbackgrounds.utils.BackgroundUtils;
+import io.github.ennuil.boring_backgrounds.utils.BackgroundUtils;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.gui.screen.Screen;
 

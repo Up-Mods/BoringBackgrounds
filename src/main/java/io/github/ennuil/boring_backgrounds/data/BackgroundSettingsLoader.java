@@ -1,4 +1,4 @@
-package io.github.ennuil.boringbackgrounds.data;
+package io.github.ennuil.boring_backgrounds.data;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import com.google.gson.JsonParser;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 
-import io.github.ennuil.boringbackgrounds.utils.BackgroundUtils;
+import io.github.ennuil.boring_backgrounds.utils.BackgroundUtils;
 import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
@@ -24,7 +24,7 @@ import net.minecraft.util.profiler.Profiler;
 
 public class BackgroundSettingsLoader implements SimpleResourceReloadListener<BackgroundSettings> {
     private static final Identifier FABRIC_ID = new Identifier("boringbackgrounds", "data_loader");
-    
+
     @Override
     public CompletableFuture<BackgroundSettings> load(ResourceManager manager, Profiler profiler, Executor executor) {
         return CompletableFuture.supplyAsync(() -> {
@@ -33,7 +33,7 @@ public class BackgroundSettingsLoader implements SimpleResourceReloadListener<Ba
                     Reader globalReader;
                     BackgroundUtils.LOGGER.warn("[Boring Backgrounds] Found a global background settings file in minecraft/config/boringbackgrounds.json. Settings provided by resource packs will be ignored!");
                     globalReader = Files.newBufferedReader(BackgroundUtils.GLOBAL_CONFIG_PATH, StandardCharsets.UTF_8);
-                    
+
                     var result = BackgroundSettings.CODEC.decode(JsonOps.INSTANCE, JsonParser.parseReader(globalReader)).map(Pair::getFirst).result();
                     globalReader.close();
                     if (result.isPresent()) {
@@ -62,7 +62,7 @@ public class BackgroundSettingsLoader implements SimpleResourceReloadListener<Ba
             } catch (IOException | JsonParseException e) {
                 BackgroundUtils.LOGGER.error("[Boring Backgrounds] Failed to load the background settings! The following error has been printed: " + e);
             }
-            
+
             return BackgroundSettings.getDefaultSettings();
         }, executor);
     }
@@ -72,7 +72,7 @@ public class BackgroundSettingsLoader implements SimpleResourceReloadListener<Ba
         return CompletableFuture.runAsync(() -> {
             List<Identifier> textures = new ArrayList<>();
             List<Integer> textureIndices = new ArrayList<>();
-            
+
             data.textures().forEach((key, value) -> {
                 textures.add(key);
                 for (int i = 0; i < value; i++) {
@@ -87,7 +87,7 @@ public class BackgroundSettingsLoader implements SimpleResourceReloadListener<Ba
             BackgroundUtils.updateBackground();
         });
     }
-    
+
     @Override
     public Identifier getFabricId() {
         return FABRIC_ID;

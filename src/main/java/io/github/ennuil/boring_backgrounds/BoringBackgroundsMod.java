@@ -1,7 +1,7 @@
-package io.github.ennuil.boringbackgrounds;
+package io.github.ennuil.boring_backgrounds;
 
-import io.github.ennuil.boringbackgrounds.data.BackgroundSettingsLoader;
-import io.github.ennuil.boringbackgrounds.events.RandomizeBackgroundEvent;
+import io.github.ennuil.boring_backgrounds.data.BackgroundSettingsLoader;
+import io.github.ennuil.boring_backgrounds.events.RandomizeBackgroundEvent;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resource.ResourceType;

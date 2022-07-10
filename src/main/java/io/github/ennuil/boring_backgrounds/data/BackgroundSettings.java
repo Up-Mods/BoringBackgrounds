@@ -1,4 +1,4 @@
-package io.github.ennuil.boringbackgrounds.data;
+package io.github.ennuil.boring_backgrounds.data;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package io.github.ennuil.boringbackgrounds.utils;
+package io.github.ennuil.boring_backgrounds.utils;
 
 import java.nio.file.Path;
 import java.util.ArrayList;

@@ -1,0 +1,43 @@
+{
+	"schema_version": 1,
+	"quilt_loader": {
+		"group": "io.github.ennuil",
+		"id": "boring_backgrounds",
+		"version": "${version}",
+		"metadata": {
+			"name": "Boring Backgrounds",
+			"description": "A mod that lets you change that boring dirt background with an another texture of your choice. The background can be changed by either a resource pack in assets/boringbackgrounds/backgrounds/background_settings.json or be changed globally at .minecraft/config/boringbackgrounds.json",
+			"contributors": {
+				"Ennui Langeweile": "Owner"
+			},
+			"contact": {
+				"homepage": "https://modrinth.com/mod/boring-backgrounds",
+				"issues": "https://github.com/EnnuiL/BoringBackgrounds/issues",
+				"sources": "https://github.com/EnnuiL/BoringBackgrounds"
+			},
+			"icon": "assets/boring_backgrounds/icon.png"
+		},
+		"intermediate_mappings": "net.fabricmc:intermediary",
+		"entrypoints": {
+			"client": "io.github.ennuil.boring_backgrounds.BoringBackgroundsMod"
+		},
+		"depends": [
+			{
+				"id": "quilt_loader",
+				"versions": ">=0.17.0-"
+			},
+			{
+				"id": "quilted_fabric_api",
+				"versions": ">=2.0.0-"
+			},
+			{
+				"id": "minecraft",
+				"versions": ">=1.19"
+			}
+		]
+	},
+	"minecraft": {
+		"environment": "client"
+	},
+	"mixin": "boring_backgrounds.mixins.json"
+}

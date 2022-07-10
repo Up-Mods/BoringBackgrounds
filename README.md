@@ -1,8 +1,8 @@
-<img src="./src/main/resources/assets/boringbackgrounds/icon.png" align="right" width="128px"/>
+<img src="./src/main/resources/assets/boring_backgrounds/icon.png" align="right" width="128px"/>
 
 # Boring Backgrounds
 
-Boring Background is a mod that allows for changing dirt background with another texture. You can simply change to a single texture, use a weighted list of textures, and even make it change every time the screen is changed! This mod requires Minecraft 1.18+ and the [Fabric API](https://modrinth.com/mod/fabric-api).
+Boring Background is a mod that allows for changing dirt background with another texture. You can simply change to a single texture, use a weighted list of textures, and even make it change every time the screen is changed! This mod requires Minecraft 1.19+ and the [QSL](https://modrinth.com/mod/qsl).
 
 ## Download
 
