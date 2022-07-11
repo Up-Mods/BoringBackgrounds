@@ -1,19 +1,20 @@
 package io.github.ennuil.boring_backgrounds.events;
 
+import org.quiltmc.qsl.screen.api.client.ScreenEvents;
+
 import io.github.ennuil.boring_backgrounds.utils.BackgroundUtils;
-import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 
 // This event randomizes the background if the relevant option is enabled
-public class RandomizeBackgroundEvent {
-    private static Screen oldScreen;
+public class RandomizeBackgroundEvent implements ScreenEvents.BeforeInit {
+	private static Screen oldScreen;
 
-    public static void registerEvent() {
-        ScreenEvents.BEFORE_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
-            if (BackgroundUtils.randomizeOnNewScreen) {
-                if (screen != oldScreen) BackgroundUtils.updateBackground();
-                oldScreen = screen;
-            }
-        });
-    }
+	@Override
+	public void beforeInit(Screen screen, MinecraftClient client, int scaledWidth, int scaledHeight) {
+		if (BackgroundUtils.randomizeOnNewScreen) {
+			if (screen != oldScreen) BackgroundUtils.updateBackground();
+			oldScreen = screen;
+		}
+	}
 }

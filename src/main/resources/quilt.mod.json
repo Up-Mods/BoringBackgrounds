@@ -19,7 +19,8 @@
 		},
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
-			"client": "io.github.ennuil.boring_backgrounds.BoringBackgroundsMod"
+			"client_init": "io.github.ennuil.boring_backgrounds.BoringBackgroundsMod",
+			"client_events": "io.github.ennuil.boring_backgrounds.events.RandomizeBackgroundEvent"
 		},
 		"depends": [
 			{

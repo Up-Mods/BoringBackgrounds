@@ -1,18 +1,16 @@
 package io.github.ennuil.boring_backgrounds;
 
+import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
+import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
+
 import io.github.ennuil.boring_backgrounds.data.BackgroundSettingsLoader;
-import io.github.ennuil.boring_backgrounds.events.RandomizeBackgroundEvent;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resource.ResourceType;
 
 public class BoringBackgroundsMod implements ClientModInitializer {
-    @Override
-    public void onInitializeClient() {
-        // Registers the background loader
-        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new BackgroundSettingsLoader());
-
-        // Registers the background-randomizing event
-        RandomizeBackgroundEvent.registerEvent();
-    }
+	@Override
+	public void onInitializeClient(ModContainer mod) {
+		// Registers the background loader
+		ResourceLoader.get(ResourceType.CLIENT_RESOURCES).registerReloader(new BackgroundSettingsLoader());
+	}
 }
