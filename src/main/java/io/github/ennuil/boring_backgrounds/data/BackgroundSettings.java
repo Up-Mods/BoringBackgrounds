@@ -1,12 +1,11 @@
 package io.github.ennuil.boring_backgrounds.data;
 
-import java.util.Map;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.Identifier;
+
+import java.util.Map;
 
 public record BackgroundSettings(Map<Identifier, Integer> textures, boolean randomizeOnNewScreen) {
 	public static final Codec<BackgroundSettings> CODEC = RecordCodecBuilder.create(
@@ -18,6 +17,6 @@ public record BackgroundSettings(Map<Identifier, Integer> textures, boolean rand
 	);
 
 	public static BackgroundSettings getDefaultSettings() {
-		return new BackgroundSettings(Map.of(DrawableHelper.OPTIONS_BACKGROUND_TEXTURE, 1), false);
+		return new BackgroundSettings(Map.of(Screen.OPTIONS_BACKGROUND_TEXTURE, 1), false);
 	}
 }

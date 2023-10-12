@@ -2,17 +2,18 @@
 
 # Boring Backgrounds
 
-Boring Background is a mod that allows for changing dirt background with another texture. You can simply change to a single texture, use a weighted list of textures, and even make it change every time the screen is changed! This mod requires Minecraft 1.19+ and the [QSL](https://modrinth.com/mod/qsl).
+Boring Background is a mod that allows for changing the dirt background with another texture. You can simply change to a single texture, use a weighted list of textures, and even make it change every time the screen is changed! This mod requires Minecraft 1.20.1+ and the [Quilt Standard Libraries](https://modrinth.com/mod/qsl).
 
 ## Download
 
 This mod is available for download on the following services:
 
 - [Modrinth (recommended)](https://modrinth.com/mod/boring-backgrounds)
-- [CurseForge (alternative)](https://www.curseforge.com/minecraft/mc-mods/boring-backgrounds)
-- [GitHub Releases (alternative)](https://github.com/EnnuiL/BoringBackgrounds/releases)
+- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/boring-backgrounds)
+- [GitHub Releases](https://github.com/EnnuiL/BoringBackgrounds/releases)
 
 ## Configuration
+
 There are two ways to configure this mod: through a resource pack, or through the global `config` folder.
 
 The config format is shared by both methods, and can be seen below:
@@ -28,9 +29,9 @@ The config format is shared by both methods, and can be seen below:
 }
 ```
 
-If you want to configure the mod through a resource pack, create the file at the path `assets/boringbackgrounds/backgrounds/background_settings.json`.
+If you want to configure the mod through a resource pack, create the file at the path `assets/boring_backgrounds/backgrounds/background_settings.json`.
 
-If you want to use a global config file, the path is `.minecraft/config/boringbackgrounds.json`. Keep in mind that it will override any resource pack-provided settings.
+If you want to use a global config file, the path is `.minecraft/config/boring_backgrounds/config.json`. Keep in mind that it will override any resource pack-provided settings.
 
 If you want to reload the settings, you may do so through F3 + T. This is due to the configuration being handled by a resource reloader.
 

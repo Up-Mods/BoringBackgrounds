@@ -1,31 +1,28 @@
 package io.github.ennuil.boring_backgrounds.data;
 
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.JsonOps;
+import io.github.ennuil.boring_backgrounds.utils.BackgroundUtils;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import net.minecraft.resource.ResourceManager;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.profiler.Profiler;
+import org.jetbrains.annotations.NotNull;
+import org.quiltmc.qsl.resource.loader.api.reloader.SimpleResourceReloader;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
-import org.quiltmc.qsl.resource.loader.api.reloader.SimpleResourceReloader;
-
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
-import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.JsonOps;
-
-import io.github.ennuil.boring_backgrounds.utils.BackgroundUtils;
-import net.minecraft.resource.Resource;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.profiler.Profiler;
-
 public class BackgroundSettingsLoader implements SimpleResourceReloader<BackgroundSettings> {
-	private static final Identifier QUILT_ID = new Identifier("boringbackgrounds", "data_loader");
+	private static final Identifier QUILT_ID = new Identifier("boring_backgrounds", "data_loader");
 
 	@Override
 	public CompletableFuture<BackgroundSettings> load(ResourceManager manager, Profiler profiler, Executor executor) {
@@ -44,7 +41,7 @@ public class BackgroundSettingsLoader implements SimpleResourceReloader<Backgrou
 					};
 				}
 
-				for (Entry<Identifier, Resource> entry : manager.findResources("backgrounds", filename -> filename.getPath().endsWith(".json")).entrySet()) {
+				for (var entry : manager.findResources("backgrounds", filename -> filename.getPath().endsWith(".json")).entrySet()) {
 					var id = entry.getKey();
 					var resource = entry.getValue();
 					if (!id.getPath().substring(0, id.getPath().lastIndexOf('.')).endsWith("background_settings")) continue;
@@ -70,26 +67,26 @@ public class BackgroundSettingsLoader implements SimpleResourceReloader<Backgrou
 	@Override
 	public CompletableFuture<Void> apply(BackgroundSettings data, ResourceManager manager, Profiler profiler, Executor executor) {
 		return CompletableFuture.runAsync(() -> {
-			List<Identifier> textures = new ArrayList<>();
-			List<Integer> textureIndices = new ArrayList<>();
+			var textures = new ArrayList<Identifier>();
+			var textureIndices = new IntArrayList();
 
-			data.textures().forEach((key, value) -> {
-				textures.add(key);
-				for (int i = 0; i < value; i++) {
+			for (var entry : data.textures().entrySet()) {
+				textures.add(entry.getKey());
+				for (int i = 0; i < entry.getValue(); i++) {
 					textureIndices.add(textures.size() - 1);
 				}
-			});
+			}
 
 			BackgroundUtils.textures = textures;
 			BackgroundUtils.textureIndices = textureIndices;
-
 			BackgroundUtils.randomizeOnNewScreen = data.randomizeOnNewScreen();
+
 			BackgroundUtils.updateBackground();
 		});
 	}
 
 	@Override
-	public Identifier getQuiltId() {
+	public @NotNull Identifier getQuiltId() {
 		return QUILT_ID;
 	}
 }
